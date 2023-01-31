@@ -1,6 +1,6 @@
 const Category = require('../models/category');
 
-exports.createCategory = async (req, req, next) => {
+exports.createCategory = async (req, res, next) => {
   try {
     const categoryName = req.body.categoryName;
 
