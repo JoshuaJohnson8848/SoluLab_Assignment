@@ -73,12 +73,14 @@ exports.getAll = async (req, res, next) => {
 };
 exports.updateProduct = async (req, res, next) => {
   const productId = req.params.id;
+
   const productName = req.body.productName;
   const qtyPerUnit = req.body.qtyPerUnit;
   const unitPrice = req.body.unitPrice;
   const unitInStock = req.body.unitInStock;
   const discontinued = req.body.discontinued;
   const categoryId = req.body.categoryId;
+
   const existingProduct = await Product.findById(productId);
   if (!existingProduct) {
     const error = new Error('Product Not Found');
@@ -91,6 +93,7 @@ exports.updateProduct = async (req, res, next) => {
   existingProduct.unitInStock = unitInStock;
   existingProduct.discontinued = discontinued;
   existingProduct.categoryId = categoryId;
+
   const updatedProduct = await existingProduct.save();
   if (!updatedProduct) {
     const error = new Error('Product Not Found');
