@@ -23,9 +23,11 @@ const productSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  categoryId: Schema.Types.ObjectId,
-  ref: 'Category',
-  required: true,
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
 });
 
-module.exports= mongoose.model('Product', productSchema);
+module.exports = mongoose.model('Product', productSchema);

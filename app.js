@@ -1,9 +1,31 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
 
+app.use(express.json());
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'OPTIONS,GET,POST,PUT,PATCH,DELETE'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type',
+    'Authorization'
+  );
+  next();
+});
+
 dotenv.config({ path: './config/.env' });
+
+const productRouter = require('./router/product');
+
+app.use('/product', productRouter);
 
 mongoose.set('strictQuery', true);
 mongoose
