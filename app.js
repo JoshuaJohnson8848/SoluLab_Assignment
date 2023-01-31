@@ -5,6 +5,10 @@ const app = express();
 
 dotenv.config({ path: './config/.env' });
 
+const productRouter = require('./router/product');
+
+app.use('/', productRouter);
+
 mongoose.set('strictQuery', true);
 mongoose
   .connect(process.env.MONGO_URI)
