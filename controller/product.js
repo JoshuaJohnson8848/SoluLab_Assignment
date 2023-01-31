@@ -40,6 +40,7 @@ exports.getById = async (req, res, next) => {
     const productId = req.params.id;
 
     const product = await Product.findById(productId).populate('categoryId');
+
     if (!product) {
       const error = new Error('Product Not Found');
       error.status = 422;
