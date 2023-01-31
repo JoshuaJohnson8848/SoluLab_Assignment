@@ -19,10 +19,18 @@ exports.createProduct = async (req, res, next) => {
     });
 
     const createdProduct = await product.save();
+    if (!createdProduct) {
+      const error = new Error('Product Not Created');
+      error.status = 500;
+      throw error;
+    }
     res
       .status(200)
       .json({ message: 'Product Created', product: createdProduct });
   } catch (err) {
-    console.log(err);
+    if (!err.status) {
+      err.status = 500;
+    }
+    next(err);
   }
 };
