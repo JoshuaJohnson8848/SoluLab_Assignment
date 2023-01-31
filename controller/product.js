@@ -21,7 +21,7 @@ exports.createProduct = async (req, res, next) => {
     const createdProduct = await product.save();
     if (!createdProduct) {
       const error = new Error('Product Not Created');
-      error.status = 500;
+      error.status = 422;
       throw error;
     }
     res
