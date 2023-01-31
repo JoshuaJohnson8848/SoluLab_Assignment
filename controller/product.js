@@ -57,13 +57,13 @@ exports.getById = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    const products = Product.find().populate('categoryId');
+    const products = await Product.find().populate('categoryId');
     if (!products) {
       const error = new Error('Products Not Found');
       error.status = 422;
       throw error;
     }
-    res.status(200).json({ message: 'All Products Fetched' });
+    res.status(200).json({ message: 'All Products Fetched', products });
   } catch (err) {
     if (!err.status) {
       err.status = 500;
