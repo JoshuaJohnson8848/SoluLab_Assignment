@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const Product = require('../models/product');
 
 exports.createProduct = async (req, res, next) => {
@@ -40,13 +41,29 @@ exports.getById = async (req, res, next) => {
     const productId = req.params.id;
 
     const product = await Product.findById(productId).populate('categoryId');
-
     if (!product) {
       const error = new Error('Product Not Found');
       error.status = 422;
       throw error;
     }
     res.status(200).json({ message: 'Product Fetched', product: product });
+  } catch (err) {
+    if (!err.status) {
+      err.status = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getAll = async (req, res, next) => {
+  try {
+    const products = Product.find().populate('categoryId');
+    if (!products) {
+      const error = new Error('Products Not Found');
+      error.status = 422;
+      throw error;
+    }
+    res.status(200).json({ message: 'All Products Fetched' });
   } catch (err) {
     if (!err.status) {
       err.status = 500;
