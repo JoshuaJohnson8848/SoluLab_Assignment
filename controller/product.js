@@ -34,3 +34,23 @@ exports.createProduct = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getById = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId).populate('categoryId');
+
+    if (!product) {
+      const error = new Error('Product Not Found');
+      error.status = 422;
+      throw error;
+    }
+    res.status(200).json({ message: 'Product Fetched', product: product });
+  } catch (err) {
+    if (!err.status) {
+      err.status = 500;
+    }
+    next(err);
+  }
+};
