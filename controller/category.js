@@ -42,3 +42,22 @@ exports.getAll = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getById = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+
+    const category = await Category.findById(productId);
+    if (!category) {
+      const error = new Error('Category Not Found');
+      error.status = 422;
+      throw error;
+    }
+    res.status(200).json({ message: 'Category Found', category });
+  } catch (err) {
+    if (!err.status) {
+      err.status = 500;
+    }
+    next(err);
+  }
+};
